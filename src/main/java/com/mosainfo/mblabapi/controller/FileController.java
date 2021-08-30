@@ -4,12 +4,14 @@ import com.mosainfo.mblabapi.dto.FileDto;
 import com.mosainfo.mblabapi.dto.Mensaje;
 import com.mosainfo.mblabapi.entity.File;
 import com.mosainfo.mblabapi.service.FileService;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -21,12 +23,14 @@ public class FileController {
     @Autowired
     FileService fileService;
 
+    @ApiOperation("Muestra una lista de fichas")
     @GetMapping("/list")
     public ResponseEntity<List<File>> getAll() {
         List<File> list = fileService.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
+    @ApiIgnore
     @GetMapping("/detail/{id}")
     public ResponseEntity<File> getById(@PathVariable("id") Integer id) {
         if (!fileService.existById( id ))
@@ -35,6 +39,7 @@ public class FileController {
         return new ResponseEntity( file, HttpStatus.OK );
     }
 
+    @ApiIgnore
     @GetMapping("/detailname/{proyecto}")
     public ResponseEntity<File> getByNombre(@PathVariable("proyecto")String proyecto) {
         if (!fileService.existByNombre( proyecto ))
